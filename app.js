@@ -7,13 +7,10 @@ const blogRoutes = require('./routes/blogRoutes');
 const app = express();
 
 // Connect to MongoDB
-const dbUsername = process.env.DB_USERNAME;
-const dbPassword = process.env.DB_PASSWORD;
-const dbAddress = process.env.DB_ADDRESS
-const dbURI = `mongodb+srv://${dbUsername}:${dbPassword}@${dbAddress}?retryWrites=true&w=majority`;
+const dbURI = process.env.MONGODB_URI;
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => app.listen(3000, () => console.log('listening on port 3000...')))
-    .catch(err => console.log(err));
+	.then(() => app.listen(3000, () => console.log('listening on port 3000...')))
+	.catch(err => console.log(err));
 
 // Register view engine
 app.set('view engine', 'ejs');
