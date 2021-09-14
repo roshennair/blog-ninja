@@ -5,11 +5,12 @@ const blogRoutes = require('./routes/blogRoutes');
 
 // Express app
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB
 const dbURI = process.env.MONGODB_URI;
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-	.then(() => app.listen(3000, () => console.log('listening on port 3000...')))
+	.then(() => app.listen(PORT, () => console.log(`listening on port ${PORT}...`)))
 	.catch(err => console.log(err));
 
 // Register view engine
@@ -21,12 +22,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 // Basic routes
-app.get('/', (req, res) => res.redirect('/blogs'));
+app.get('/', (_, res) => res.redirect('/blogs'));
 
-app.get('/about', (req, res) => res.render('about', { title: 'About' }));
+app.get('/about', (_, res) => res.render('about', { title: 'About' }));
 
 // Blog routes
 app.use('/blogs', blogRoutes);
 
 // 404 page - must be last
-app.use((req, res) => res.status(404).render('404', { title: '404' }));
+app.use((_, res) => res.status(404).render('404', { title: '404' }));
